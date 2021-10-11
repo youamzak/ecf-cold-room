@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
-const uniqueValidator = require('mongoose-unique-validator');
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const uniqueValidator = require("mongoose-unique-validator");
 
 const userSchema = new mongoose.Schema(
   {
@@ -14,50 +14,46 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Mot de passe requis"],
       minLength: [8, "Longueur minimum 8 caractères"],
-      max: 1024
+      max: 1024,
     },
     role: {
-      type: String
+      type: String,
     },
     officines: {
-      type: [
-        {
-          officine: { type: mongoose.Schema.Types.ObjectId, ref: "officine" },
-        },
-      ],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "officine" }],
       required: true,
     },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
-)
+);
 
 // Encryption of the password before saving into the DB
-userSchema.pre("save", async function(next){
-  const salt = await bcrypt.genSalt()
-  this.password = await bcrypt.hash(this.password, salt)
-  next()
-})
+userSchema.pre("save", async function (next) {
+  const salt = await bcrypt.genSalt();
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
 
-userSchema.statics.login = async function(email, password) {
-  const user = await this.findOne({email})
+userSchema.statics.login = async function (email, password) {
+  const user = await this.findOne({ email });
 
-  if(user){
-    const auth = await bcrypt.compare(password, user.password)
-    if(auth) 
-    {
-      user.password = undefined;   
-      return user
+  if (user) {
+    const auth = await bcrypt.compare(password, user.password);
+    if (auth) {
+      user.password = undefined;
+      return user;
     }
-    throw Error('Mot de passe incorrect')
+    throw Error("Mot de passe incorrect");
   }
-  throw Error('Identifiant incorrect')
-  
-}
+  throw Error("Identifiant incorrect");
+};
 
-userSchema.plugin(uniqueValidator, {message : "Erreur, {PATH} doit être unique."});
+userSchema.plugin(uniqueValidator, {
+  message: "Erreur, {PATH} doit être unique.",
+});
 
-const UserModel = mongoose.model("user", userSchema)
+const UserModel = mongoose.model("user", userSchema);
 
-module.exports = UserModel
+module.exports = UserModel;

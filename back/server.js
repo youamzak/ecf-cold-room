@@ -1,12 +1,16 @@
 const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
+// Routes
 const userRoutes = require("./routes/user.routes");
 const officineRoutes = require("./routes/officine.routes");
+const coldRoomRoutes = require("./routes/coldRoom.routes");
+
 require("dotenv").config({ path: "./config/.env" });
 require("./config/db");
 const { requireAuth } = require("./middleware/auth.middleware");
-const cors = require("cors");
+
 
 const corsOptions = {
   origin: true,//process.env.CLIENT_URL,
@@ -36,6 +40,8 @@ app.get("/jwtid", requireAuth, (req, res) => {
 // routes
 app.use("/api/user", userRoutes);
 app.use("/api/officine", officineRoutes);
+app.use("/api/coldRoom", coldRoomRoutes);
+
 //server
 app.listen(process.env.PORT, () => {
   console.log(`Listening on the port ${process.env.PORT}`);
