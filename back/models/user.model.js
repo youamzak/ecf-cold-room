@@ -18,6 +18,9 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
+      enum : ["administrateur", "technicien", "officine"],
+      default : "officine",
+      required: [true, "Role requis"],
     },
     officines: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "officine" }],
@@ -36,8 +39,8 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.statics.login = async function (email, password) {
-  const user = await this.findOne({ email });
+userSchema.statics.login = async function (login, password) {
+  const user = await this.findOne({ login });
 
   if (user) {
     const auth = await bcrypt.compare(password, user.password);

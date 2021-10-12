@@ -9,6 +9,7 @@ const createToken = (id) => {
   });
 };
 
+/** Create user */
 module.exports.signUp = async (req, res) => {
   const { login, password, role, officine } = req.body;
 
@@ -19,19 +20,26 @@ module.exports.signUp = async (req, res) => {
     .catch((err) => res.status(200).json({err}));
 };
 
+/** Login */
 module.exports.signIn = async (req, res) => {
   const { login, password } = req.body;
 
-  const user = await UserModel.login(login, password);
-  if (user) {
-    const token = createToken(user._id);
-    res.cookie("jwt", token, { httpOnly: true, maxAge });
-    res.status(200).json(user);
-  } else {
-    res.status(401).send("Erreur durant la connexion");
+  try {
+    const user = await UserModel.login(login, password);
+    if (user) {
+      const token = createToken(user._id);
+      res.cookie("jwt", token, { httpOnly: true, maxAge });
+      res.status(200).json(user);
+    } else {
+      res.status(200).send({err });
+    }
+  } catch (error) {
+    res.status(200).send({err : error.message });
   }
+ 
 };
 
+/** Logout */
 module.exports.signOut = async (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.status(200).json({ res: "Déconnecté" });

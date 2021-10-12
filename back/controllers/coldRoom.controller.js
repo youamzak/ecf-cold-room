@@ -1,8 +1,7 @@
-const jwt = require("jsonwebtoken");
 const ColdRoomModel = require("../models/coldRoom.model");
 const OfficineModel = require("../models/officine.model");
 
-/** Add cold room  */
+/** Create cold room  */
 module.exports.createColdRoom = async (req, res) => {
   const { reference, officine } = req.body;
 
@@ -25,7 +24,7 @@ module.exports.getColdRooms = async (req, res) => {
     .then((docs) => {
       res.status(200).json(docs);
     })
-    .catch((err) => res.status(400).json({ err }));
+    .catch((err) => res.status(400).json({ err  }));
 };
 
 /** Get the cold rooms of the officine */

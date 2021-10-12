@@ -1,26 +1,8 @@
-const jwt = require("jsonwebtoken");
 const OfficineModel = require("../models/officine.model");
 const UserModel = require("../models/user.model");
 const ColdRoomModel = require("../models/coldRoom.model");
 
-const officineErrors = (err) => {
-  const errorMessage = {};
-  if(err && err.errors) {
-
-    if (err.errors.name) errorMessage.name = err.errors.name.message;
-    if (err.errors.address) errorMessage.address = err.errors.address.message;
-    if (err.errors.city) errorMessage.city = err.errors.city.message;
-    if (err.errors.phone) errorMessage.phone = err.errors.phone.message;
-    if (err.errors.owner) errorMessage.owner = err.errors.owner.message;
-    if (err.errors.users) errorMessage.users = err.errors.users.message;
-    if (err.errors.coldRooms) errorMessage.coldRooms = err.errors.coldRooms.message;
-    return errorMessage
-  }
-
-  return err.message
-}
-
-/** Add new officine */
+/** Create new officine */
 module.exports.createOfficine = async (req, res) => {
   const { name, address, city, phone, owner } = req.body;
 
@@ -29,11 +11,11 @@ module.exports.createOfficine = async (req, res) => {
       res.status(201).json(docs);
     })
     .catch((err) => {
-      res.status(400).json({ err : officineErrors(err) });
+      res.status(400).json({ err });
     });
 };
 
-/** Add cold room to officine */
+/** Add cold room to officine + associate the cold room model */
 module.exports.addColdRoomToOfficine = async (req, res) => {
   const { officine, coldRoom } = req.body;
 
@@ -56,10 +38,10 @@ module.exports.addColdRoomToOfficine = async (req, res) => {
       );
       res.status(201).json(docs);
     })
-    .catch((err) => res.status(400).json({ err : officineErrors(err) }));
+    .catch((err) => res.status(400).json({ err }));
 };
 
-/** Add user to officine */
+/** Add user to officine + associate the user model */
 module.exports.addUserToOfficine = async (req, res) => {
   const { officine, user } = req.body;
 
@@ -85,7 +67,7 @@ module.exports.addUserToOfficine = async (req, res) => {
 
       res.status(201).json(docs);
     })
-    .catch((err) => res.status(400).json({ err : officineErrors(err)  }));
+    .catch((err) => res.status(400).json({ err }));
 };
 
 /** Get all officines from the database */
@@ -97,7 +79,7 @@ module.exports.getOfficines = async (req, res) => {
     .then((docs) => {
       res.status(200).json(docs);
     })
-    .catch((err) => res.status(400).json({ err : officineErrors(err)  }));
+    .catch((err) => res.status(400).json({ err }));
 };
 
 /** Get the officine of the owner */
@@ -108,5 +90,5 @@ module.exports.getOwnerOfficines = async (req, res) => {
     .then((docs) => {
       res.status(200).json(docs);
     })
-    .catch((err) => res.status(400).json({ err : officineErrors(err)  }));
+    .catch((err) => res.status(400).json({ err }));
 };
