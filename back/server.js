@@ -2,15 +2,14 @@ const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-// Routes
+const helmet = require("helmet")
+const { requireAuth } = require("./middleware/auth.middleware");
 const userRoutes = require("./routes/user.routes");
 const officineRoutes = require("./routes/officine.routes");
 const coldRoomRoutes = require("./routes/coldRoom.routes");
 
 require("dotenv").config({ path: "./config/.env" });
 require("./config/db");
-const { requireAuth } = require("./middleware/auth.middleware");
-
 
 const corsOptions = {
   origin: true,//process.env.CLIENT_URL,
@@ -21,6 +20,7 @@ const corsOptions = {
   preflightContinue: false,
 };
 
+app.use(helmet());
 app.use(cors(corsOptions));
 
 // parsers

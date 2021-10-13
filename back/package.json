@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "express-joi-validation": "^5.0.0",
     "express-unless": "^1.0.0",
+    "helmet": "^4.6.0",
     "i18next": "^21.0.1",
     "i18next-browser-languagedetector": "^6.1.2",
     "i18next-fs-backend": "^1.1.1",
