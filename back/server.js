@@ -32,9 +32,9 @@ app.use(cookieParser());
 app.get("/jwtid", requireAuth, (req, res) => {
   if (res.locals.user) {
     res.locals.user.password = null
-    res.status(200).send(res.locals.user);
+    res.status(200).json(res.locals.user);
   }
-  else res.status(200).send(null);
+  else res.status(400).json({err: "no token"});
 });
 
 // routes

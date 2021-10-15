@@ -17,7 +17,7 @@ module.exports.signUp = async (req, res) => {
     .then((docs) => {
       res.status(201).json(docs._id);
     })
-    .catch((err) => res.status(200).json({err}));
+    .catch((err) => res.status(400).json({err}));
 };
 
 /** Login */
@@ -26,15 +26,16 @@ module.exports.signIn = async (req, res) => {
 
   try {
     const user = await UserModel.login(login, password);
+    console.log(user)
     if (user) {
       const token = createToken(user._id);
       res.cookie("jwt", token, { httpOnly: true, maxAge });
       res.status(200).json(user);
     } else {
-      res.status(200).send({err });
+      res.status(400).send({err });
     }
   } catch (error) {
-    res.status(200).send({err : error.message });
+    res.status(400).send({err : error.message });
   }
  
 };

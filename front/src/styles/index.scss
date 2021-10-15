@@ -1,0 +1,52 @@
+$gc-white : #FFFFFF;
+$gc-grey-light : #E0E0E0;
+$gc-grey-middle : #ADB3B7;
+$gc-grey-dark : #5B6770;
+$gc-orange : #FF6900;
+$gc-red : #EF353E;
+$gc-blue : #0068A3;
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../font/Montserrat/Montserrat-Bold.ttf") format("truetype"),
+    url("../font/Montserrat/Montserrat-Regular.ttf") format("truetype"),
+    url("../font/Montserrat/Montserrat-Thin.ttf") format("truetype"),
+    url("../font/Montserrat/Montserrat-Light.ttf") format("truetype");
+}
+
+* {
+  font-family: "Montserrat", "Segoi UI", sans-serif, serif;
+  letter-spacing: 0.1em;
+}
+
+body {
+  background-color: $gc-grey-light;
+}
+
+/* Police */
+
+.fc-white {color : $gc-white;}
+.fc-light {color : $gc-grey-light;}
+.fc-middle {color : $gc-grey-middle;}
+.fc-dark {color : $gc-grey-dark;}
+.fc-orange {color : $gc-orange;}
+.fc-red {color : $gc-red;}
+.fc-blue {color : $gc-blue;}
+
+.fs-13 {font-size: 13px;font-weight:400;}
+.fs-13-bold {font-size: 13px;font-weight: bold;}
+.fs-24 {font-size: 24px;font-weight:400;}
+.fs-24-bold {font-size: 24px;font-weight: bold;}
+
+/* Colors */
+.bk-white {background-color: $gc-white;}
+.bk-grey-light {background-color: $gc-grey-light;}
+.bk-grey-middle {background-color: $gc-grey-middle;}
+.bk-grey-dark {background-color: $gc-grey-dark;}
+.bk-orange {background-color: $gc-orange;}
+.bk_red{background-color: $gc-red;}
+.bk-blue {background-color: $gc-blue;}
+
+/* */
+.br-2 {border-radius: 2px;}
+.br-5 {border-radius: 5px;}
