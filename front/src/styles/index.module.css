@@ -1,0 +1,109 @@
+@font-face {
+  font-family: "Montserrat";
+  src: url("../font/Montserrat/Montserrat-Bold.ttf") format("truetype"), url("../font/Montserrat/Montserrat-Regular.ttf") format("truetype"), url("../font/Montserrat/Montserrat-Thin.ttf") format("truetype"), url("../font/Montserrat/Montserrat-Light.ttf") format("truetype");
+}
+* {
+  font-family: "Montserrat", "Segoi UI", sans-serif, serif;
+  letter-spacing: 0.1em;
+}
+
+body {
+  background-color: #e0e0e0 !important;
+}
+
+/* Police */
+.fc_white {
+  color: #ffffff;
+}
+
+.fc_light {
+  color: #e0e0e0;
+}
+
+.fc_middle {
+  color: #adb3b7;
+}
+
+.fc_dark {
+  color: #5b6770;
+}
+
+.fc_orange {
+  color: #ff6900;
+}
+
+.fc_red {
+  color: #ef353e;
+}
+
+.fc_blue {
+  color: #0068a3;
+}
+
+.fs_13 {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.fs_13_bold {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.fs_24 {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.fs_24_bold {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Colors */
+.bk_white {
+  background-color: #ffffff;
+}
+
+.bk_grey_light {
+  background-color: #e0e0e0;
+}
+
+.bk_grey_middle {
+  background-color: #adb3b7;
+}
+
+.bk_grey_dark {
+  background-color: #5b6770;
+}
+
+.bk_orange {
+  background-color: #ff6900;
+}
+
+.bk_red {
+  background-color: #ef353e;
+}
+
+.bk_blue {
+  background-color: #0068a3;
+}
+
+/* */
+.br_2 {
+  border-radius: 2px;
+}
+
+.br_5 {
+  border-radius: 5px;
+}
+
+:export {
+  gc_white: #ffffff;
+  gc_grey_light: #e0e0e0;
+  gc_grey_middle: #adb3b7;
+  gc_grey_dark: #5b6770;
+  gc_orange: #ff6900;
+  gc_red: #ef353e;
+  gc_blue: #0068a3;
+}/*# sourceMappingURL=index.module.css.map */

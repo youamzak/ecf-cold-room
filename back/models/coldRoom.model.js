@@ -14,24 +14,37 @@ const coldRoomSchema = new mongoose.Schema(
       ref: "officine",
       required: [true, "Officine requise"],
      },
-    temperatures: {
-      type: [
-        {
-          measure: String, 
-          timestamp: Number,
-        },
-      ],
-      required: true,
-    },
-    hygrometry: {
-      type: [
-        {
-          measure: String,
-          timestamp: Number,
-        },
-      ],
-      required: true,
-    },
+     measures : {
+
+       type : [
+         {
+           isValid: Boolean,
+           uploadDay: String,
+           temperatures: {
+            type: [
+              {
+                measure: String, 
+                timestamp: Number,
+              },
+            ],
+            required: true,
+            _id: false,
+          },
+          hygrometry: {
+            type: [
+              {
+                measure: String,
+                timestamp: Number,
+              },
+            ],
+            required: true,
+            _id: false,
+          },
+         }
+       ]
+      },
+   
+    
   },
   {
     timestamps: true

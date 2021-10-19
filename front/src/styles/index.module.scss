@@ -1,0 +1,110 @@
+$gc_white: #ffffff;
+$gc_grey_light: #e0e0e0;
+$gc_grey_middle: #adb3b7;
+$gc_grey_dark: #5b6770;
+$gc_orange: #ff6900;
+$gc_red: #ef353e;
+$gc_blue: #0068a3;
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../font/Montserrat/Montserrat-Bold.ttf") format("truetype"),
+    url("../font/Montserrat/Montserrat-Regular.ttf") format("truetype"),
+    url("../font/Montserrat/Montserrat-Thin.ttf") format("truetype"),
+    url("../font/Montserrat/Montserrat-Light.ttf") format("truetype");
+}
+
+* {
+  font-family: "Montserrat", "Segoi UI", sans-serif, serif;
+  letter-spacing: 0.1em;
+}
+
+body {
+  background-color: $gc_grey_light !important;
+}
+
+/* Police */
+
+.fc_white {
+  color: $gc_white;
+}
+.fc_light {
+  color: $gc_grey_light;
+}
+.fc_middle {
+  color: $gc_grey_middle;
+}
+.fc_dark {
+  color: $gc_grey_dark;
+}
+.fc_orange {
+  color: $gc_orange;
+}
+.fc_red {
+  color: $gc_red;
+}
+.fc_blue {
+  color: $gc_blue;
+}
+
+.fs_13 {
+  font-size: 13px;
+  font-weight: 400;
+}
+.fs_13_bold {
+  font-size: 13px;
+  font-weight: bold;
+}
+.fs_16_bold {
+  font-size: 16px;
+  font-weight: bold;
+}
+.fs_24 {
+  font-size: 24px;
+  font-weight: 400;
+}
+.fs_24_bold {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Colors */
+.bk_white {
+  background-color: $gc_white;
+}
+.bk_grey_light {
+  background-color: $gc-grey-light;
+}
+.bk_grey_middle {
+  background-color: $gc_grey_middle;
+}
+.bk_grey_dark {
+  background-color: $gc_grey_dark;
+}
+.bk_orange {
+  background-color: $gc_orange;
+}
+.bk_red {
+  background-color: $gc_red;
+}
+.bk_blue {
+  background-color: $gc_blue;
+}
+
+/* */
+.br_2 {
+  border-radius: 2px;
+}
+.br_5 {
+  border-radius: 5px;
+}
+
+:export {
+  gc_white: $gc_white;
+  gc_grey_light: $gc_grey_light;
+  gc_grey_middle: $gc_grey_middle;
+  gc_grey_dark: $gc_grey_dark;
+  gc_orange: $gc_orange;
+  gc_red: $gc_red;
+  gc_blue: $gc_blue;
+}

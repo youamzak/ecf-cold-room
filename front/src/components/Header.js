@@ -5,14 +5,16 @@ import Nav from "./Nav";
 
 const Header = () => {
   return (
-    <Container>
-      <ImgContainer>
-        <img src={logo} alt="logo" />
-      </ImgContainer>
-      <NavContainer>
-        <Nav/>
-      </NavContainer>
-    </Container>
+    <div style={{ backgroundColor: "white" }}>
+      <Container>
+        <ImgContainer>
+          <img src={logo} alt="logo" />
+        </ImgContainer>
+        {/* <NavContainer> */}
+          <Nav />
+        {/* </NavContainer> */}
+      </Container>
+    </div>
   );
 };
 
@@ -30,16 +32,11 @@ const ImgContainer = styled.div`
   margin-left: 24px;
 
   height: 80px;
-  width: 80px;
+  width: 100px;
   img {
     height: 100%;
     width: 100%;
   }
 `;
 
-const NavContainer = styled.div`
-width: 100%;
-height: 100%;
-  background-color: red;
-`
 export default Header;

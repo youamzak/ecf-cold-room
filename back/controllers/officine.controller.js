@@ -7,7 +7,17 @@ module.exports.createOfficine = async (req, res) => {
   const { name, address, city, phone, owner } = req.body;
 
   await OfficineModel.create({ name, address, city, phone, owner })
-    .then((docs) => {
+    .then(async (docs) => {
+      await UserModel.findByIdAndUpdate(
+        user,
+        {
+          $addToSet: {
+            officine: owner,
+          },
+        },
+        { new: true, runValidators: true }
+      );
+
       res.status(201).json(docs);
     })
     .catch((err) => {
@@ -59,7 +69,7 @@ module.exports.addUserToOfficine = async (req, res) => {
         user,
         {
           $addToSet: {
-            officines: officine,
+            officine: officine,
           },
         },
         { new: true, runValidators: true }

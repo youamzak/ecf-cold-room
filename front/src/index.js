@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { PersistGate } from "redux-persist/integration/react";
 import store from "./store/store";
 import { persistor } from "./store/store";
-import "./styles/index.css"
+import "./styles/index.module.css"
 require("dotenv").config();
 
 ReactDOM.render(

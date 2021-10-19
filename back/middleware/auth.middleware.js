@@ -14,7 +14,7 @@ module.exports.checkUser = (req, res, next) => {
         let user = await UserModel.findById(decodedToken.id);
         res.locals.user = user;
         next();
-        return req
+        return req;
       }
     });
   } else {
@@ -31,7 +31,12 @@ module.exports.requireAuth = (req, res, next) => {
       if (err) {
         console.log(err);
       } else {
-        let user = await UserModel.findById(decodedToken.id);
+        let user = await UserModel.findById(decodedToken.id)
+          .populate({
+            path: "officine",
+            populate: { path: "coldRooms", model:"coldRoom" },
+          })
+          .exec();
         res.locals.user = user;
         next();
       }

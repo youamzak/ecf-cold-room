@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Menu1 = () => {
+const Menu2 = () => {
   return (
     <div>
-      Menu1
+      Menu3
     </div>
   )
 }
 
-export default Menu1
+export default Menu2

@@ -1,13 +1,18 @@
 const router = require('express').Router()
 const authController = require('../controllers/auth.controller')
 const {loginValidationSchema, 
-  registerValidationSchema} = require("../middleware/validations/auth.validation")
+  registerValidationSchema,
+  changePswValidationSchema,
+  roleValidationSchema
+} = require("../middleware/validations/auth.validation")
 const { validationError } = require('../middleware/validations/utils.validation')
 const joiValidator = require("express-joi-validation").createValidator({
   passError: true,
 });
-
-router.post('/signUp', joiValidator.body(registerValidationSchema), authController.signUp)
+// joiValidator.body(registerValidationSchema),
+router.post('/signUp',  authController.signUp)
+router.post('/updatePassword', joiValidator.body(changePswValidationSchema), authController.updatePassword)
+router.post('/getUser', joiValidator.body(roleValidationSchema), authController.getUser)
 router.post('/signIn', joiValidator.body(loginValidationSchema), authController.signIn)
 router.post('/signOut', authController.signOut)
 

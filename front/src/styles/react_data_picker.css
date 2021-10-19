@@ -1,0 +1,6 @@
+.react-datepicker-popper {
+  position: absolute;
+inset: 0px auto auto 0px;
+  transform: none !important;
+  width: 110px;
+}

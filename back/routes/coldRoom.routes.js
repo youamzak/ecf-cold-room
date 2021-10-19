@@ -1,10 +1,16 @@
 const router = require("express").Router();
+const upload = require("../middleware/upload.middleware");
 const coldRoomController = require("../controllers/coldRoom.controller");
 const {
   createColdRoomValidationSchema,
   getOfficineValidationSchema,
+  addMeasureValidationSchema,
 } = require("../middleware/validations/coldRoom.validation");
-const { validationError } = require('../middleware/validations/utils.validation')
+
+const {
+  validationError,
+} = require("../middleware/validations/utils.validation");
+
 const joiValidator = require("express-joi-validation").createValidator({
   passError: true,
 });
@@ -14,11 +20,29 @@ router.post(
   joiValidator.body(createColdRoomValidationSchema),
   coldRoomController.createColdRoom
 );
+
+router.post(
+  "/addMeasure",
+  //joiValidator.body(addMeasureValidationSchema),
+  upload.single("upload"),
+  coldRoomController.addMesurementToColdroom
+);
+
+router.post(
+  "/getColdRoomMeasurement",
+  coldRoomController.getColdRoomMeasurement
+);
+
+router.post(
+  "/switchValidationDayColdroom",
+  coldRoomController.switchValidationDayColdroom
+);
+
 router.get(
   "/getColdRooms",
-  joiValidator.body(getOfficineValidationSchema),
   coldRoomController.getColdRooms
 );
+
 router.get("/getOfficineColdRooms", coldRoomController.getOfficineColdRooms);
 
 // Validation route

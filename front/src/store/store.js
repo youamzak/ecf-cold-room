@@ -8,10 +8,12 @@ import {
 import storage from "redux-persist/lib/storage";
 import userSlice from "./slices/user.slice";
 import officineSlice from "./slices/officine.slice";
+import coldRoomSlice from "./slices/coldRoom.slice";
 
 const rootReducer = combineReducers({
   user : userSlice.reducer,
-  coldRoom: officineSlice.reducer,
+  officine: officineSlice.reducer,
+  coldRoom: coldRoomSlice.reducer,
 })
 
 const persistConfig = {

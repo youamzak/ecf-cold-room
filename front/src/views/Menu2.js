@@ -3,7 +3,7 @@ import React from 'react'
 const Menu2 = () => {
   return (
     <div>
-      Menu2
+      Aucune officine enregistrée sous ce compte
     </div>
   )
 }

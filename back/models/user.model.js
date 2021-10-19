@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
       default : "officine",
       required: [true, "Role requis"],
     },
-    officines: {
+    officine: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "officine" }],
       required: true,
     },

@@ -1,41 +1,41 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-// Popup
-import Popup from "reactjs-popup";
-import "reactjs-popup/dist/index.css";
+import {
+  BrowserRouter as Router,
+} from "react-router-dom";
 // store
 import { useDispatch, useSelector } from "react-redux";
 // Components + styled-component
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import styled from "styled-components";
-import { getError, signIn, resetState, getErrorMessage } from "../store/slices/user.slice";
+import {
+  getError,
+  signIn,
+  resetState,
+  getErrorMessage,
+} from "../store/slices/user.slice";
 import logo from "../img/logo.png";
+import styles from "../styles/index.module.css";
+import PopupError from "../components/PopupMsg";
 
 const Log = () => {
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
   const isErr = useSelector(getError);
   const errMsg = useSelector(getErrorMessage);
 
   useEffect(() => {
     dispatch(resetState());
-   
-  }, [dispatch])
-
-  const PopupError = () => (
-    <StyledPopup open={isErr} modal>
-      <span className="fc-white">{errMsg}</span>
-    </StyledPopup>
-  );
+  }, [dispatch]);
 
   return (
     <div>
       {isErr ? (
         <>
-          <PopupError />
+          <PopupError isError={isErr} errorMessage={errMsg} />
         </>
       ) : null}
-      <FormLogin />
+      <Router><FormLogin /></Router>
     </div>
   );
 };
@@ -49,7 +49,6 @@ const FormLogin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     await dispatch(signIn({ login, password }))
-      .unwrap()
       .then((docs) => {
         history.push("/");
       })
@@ -62,12 +61,14 @@ const FormLogin = () => {
         <img src={logo} alt="logo" />
       </ImgContainer>
 
-      <Container className="bk-grey-dark fc-white br-5 fs-13">
+      <Container
+        className={`${styles.bk_grey_dark} ${styles.fc_white} ${styles.br_5} ${styles.fs_13}`}
+      >
         <Form onSubmit={handleLogin}>
           <Form.Group className="mb-3" controlId="formBasicLogin">
             <Form.Label>Identifiant</Form.Label>
             <Form.Control
-              className="fs-13"
+              className={styles.fs_13}
               type="text"
               placeholder="Entrer un identifiant"
               value={login}
@@ -81,7 +82,7 @@ const FormLogin = () => {
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Mot de passe</Form.Label>
             <Form.Control
-              className="fs-13"
+              className={styles.fs_13}
               type="password"
               placeholder="Mot de passe"
               value={password}
@@ -92,7 +93,11 @@ const FormLogin = () => {
             />
           </Form.Group>
 
-          <Button className="w-100 fs-13" variant="primary" type="submit">
+          <Button
+            className={`w-100 ${styles.fs_13}`}
+            variant="primary"
+            type="submit"
+          >
             Se connecter
           </Button>
         </Form>
@@ -117,22 +122,6 @@ const MainContainer = styled.div`
 
 const ImgContainer = styled.div`
   margin-top: 50px;
-`;
-
-const StyledPopup = styled(Popup)`
-  &-content {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: 100px;
-    
-    width: 25%;
-    padding: 0px;
-    border: none;
-    border-radius: 5px;
-    background-color: #ef353e; //red from CSS
-  }
 `;
 
 export default Log;
