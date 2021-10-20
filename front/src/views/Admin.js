@@ -22,19 +22,21 @@ import {
   resetInfos,
 } from "../store/slices/user.slice";
 import { createOfficine, getOfficines } from "../store/slices/officine.slice";
-import { createColdRoom } from "../store/slices/coldRoom.slice";
+import { createColdRoom, getColdRooms, addMesurementToColdroom } from "../store/slices/coldRoom.slice";
 
 const Admin = () => {
   const dispatch = useDispatch();
   const userRole = useSelector((state) => state.user.user.role);
 
   const userList = useSelector((state) => state.user.userList);
+  const coldRoomList = useSelector((state) => state.coldRoom.coldRooms)
   const officineList = useSelector((state) => state.officine.officines);
   const [userOfficine, setUserOfficine] = useState([]);
   const [userTechnician, setUserTechnician] = useState([]);
 
-  console.log("userOfficine", userOfficine);
-  console.log("userTechnician", userTechnician);
+  console.log("coldRoomList", coldRoomList);
+  console.log("officineList", officineList);
+
   //Change password
   const [psw1, setPsw1] = useState("");
   const [psw2, setPsw2] = useState("");
@@ -64,6 +66,10 @@ const Admin = () => {
   const [reference, setReference] = useState("");
   const [officine, setOfficine] = useState("");
 
+  //Upload measure
+  const [coldRoom, setColdRoom] = useState("");
+  const [fileToUp, setFileToUp] = useState("");
+
   ////
   const [isErr, setIsErr] = useState(false);
   const [errMsg, setErrMsg] = useState("");
@@ -80,6 +86,7 @@ const Admin = () => {
     setIsErr(false);
 
     dispatch(getUser());
+    dispatch(getColdRooms())
     dispatch(getOfficines());
   }, [dispatch]);
 
@@ -186,6 +193,14 @@ const Admin = () => {
     await dispatch(createColdRoom({ reference, officine }));
   };
 
+  const handleUploadMeasure = async (e) => {
+    e.preventDefault();
+    const data = new FormData()
+    console.log(fileToUp)
+    data.append('upload', fileToUp)
+    data.append('coldRoom', coldRoom)
+    await dispatch(addMesurementToColdroom(data));
+  };
   return (
     <div>
       {isErr ? (
@@ -526,7 +541,51 @@ const Admin = () => {
             </FormContainer>
           </>
         ) : (
-          <></>
+          <>
+            <FormContainer>
+              <TitleContainer>
+                <p className={`${styles.fs_16_bold} ${styles.fc_white}`}>
+                  Upload mesures
+                </p>
+              </TitleContainer>
+              <Container
+                className={`${styles.bk_grey_dark} ${styles.fc_white} ${styles.br_5} ${styles.fs_13}`}
+              >
+                <Form onSubmit={handleUploadMeasure}>
+                  <Form.Group onChange={(e)=>setFileToUp(e.target.files[0])} controlId="formFile" className="mb-3">
+                    <Form.Label>Fichier de mesures</Form.Label>
+                    <Form.Control type="file" />
+                  </Form.Group>
+
+                  <Dropdown onSelect={(key, e) => setColdRoom(key)}>
+                    <Dropdown.Toggle
+                      className="w-100"
+                      variant="success"
+                      id="dropdown-basic"
+                    >
+                      Chambre froide
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      {coldRoomList.map((coldRoom) => (
+                        <Dropdown.Item eventKey={coldRoom._id}>
+                          {coldRoom.reference}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
+
+                  <Button
+                    className={`w-100 mt-3 ${styles.fs_13}`}
+                    variant="primary"
+                    type="submit"
+                  >
+                    Valider
+                  </Button>
+                </Form>
+              </Container>
+            </FormContainer>
+          </>
         )}
       </UserContainer>
     </div>
@@ -534,7 +593,7 @@ const Admin = () => {
 };
 
 const TitleContainer = styled.div`
-margin-top: 20px;
+  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -558,9 +617,9 @@ const UserContainer = styled.div`
 `;
 
 const FormContainer = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export default Admin;

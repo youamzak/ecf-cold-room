@@ -12,6 +12,7 @@ const fileStorageEngine = multer.diskStorage({
 const fileFilter = (req, file, cb) => {
   const excludeMimeType = [
     'text/csv',
+    'application/vnd.ms-excel'
   ]
 
   if (excludeMimeType.includes(file.mimetype)) { // checking the MIME type of the uploaded file

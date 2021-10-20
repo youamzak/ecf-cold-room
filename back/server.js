@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require('path');
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const helmet = require("helmet")
@@ -20,6 +21,7 @@ const corsOptions = {
   preflightContinue: false,
 };
 
+app.use(express.static(path.join(__dirname, '../client/build')))
 app.use(helmet());
 app.use(cors(corsOptions));
 

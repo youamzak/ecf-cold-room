@@ -36,6 +36,8 @@ module.exports.createColdRoom = async (req, res) => {
 
 /** Add measurement */
 module.exports.addMesurementToColdroom = async (req, res) => {
+  console.log("req.body",req.body)
+  console.log("req.file",req.file)
   const { coldRoom } = req.body;
   const arrTemperature = [];
   const arrHygrometry = [];

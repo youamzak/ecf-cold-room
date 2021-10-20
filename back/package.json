@@ -7,7 +7,7 @@
     "start": "node server"
   },
   "keywords": [],
-  "author": "",
+  "author": "Zakaria Chegdali",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",

@@ -23,7 +23,6 @@ router.post(
 
 router.post(
   "/addMeasure",
-  //joiValidator.body(addMeasureValidationSchema),
   upload.single("upload"),
   coldRoomController.addMesurementToColdroom
 );
