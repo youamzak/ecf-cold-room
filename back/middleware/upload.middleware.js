@@ -1,8 +1,8 @@
 const multer = require('multer')
-
+const pathLib = require('path');
 const fileStorageEngine = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './uploads')
+    cb(null, pathLib.join(__dirname,'../uploads'))
   },
   filename: (req, file, cb ) => {
     cb(null, file.originalname)

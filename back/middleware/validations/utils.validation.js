@@ -7,35 +7,35 @@ module.exports.validateObjectId = (value, helpers) => {
 
 module.exports.validationError = (errorDetails) => {
   const nbErrorDetails = errorDetails.length;
-  const errorMessages = {};
+  const err = {};
 
   for (let i = 0; i < nbErrorDetails; i++) {
     const { type, context } = errorDetails[i];
     switch (type) {
       case "string.empty":
-        errorMessages[context.label] = "Le paramètre ne doit pas être vide";
+        err[context.label] = "Le paramètre ne doit pas être vide";
         break;
 
       case "string.min":
-        errorMessages[context.label] = "Nombre de caractères saisi insuffisant";
+        err[context.label] = "Nombre de caractères saisi insuffisant";
         break;
 
       case "string.max":
-        errorMessages[context.label] = "Nombre de caractères maxi dépassé";
+        err[context.label] = "Nombre de caractères maxi dépassé";
         break;
 
       case "any.required":
-        errorMessages[context.label] = "Le paramètre est requis";
+        err[context.label] = "Le paramètre est requis";
         break;
 
       case "any.invalid":
-        errorMessages[context.label] = "Le paramètre est invalide";
+        err[context.label] = "Le paramètre est invalide";
         break;
 
       default:
-        errorMessages[type] = context.label;
+        err[type] = context.label;
         break;
     }
   }
-  return { errorMessages };
+  return { err };
 };

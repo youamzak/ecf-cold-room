@@ -9,9 +9,11 @@
   "keywords": [],
   "author": "Zakaria Chegdali",
   "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
   "dependencies": {
     "bcrypt": "^5.0.1",
-    "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "crypto-js": "^4.0.0",
@@ -30,10 +32,12 @@
     "mongoose": "^6.0.5",
     "mongoose-unique-validator": "^2.0.3",
     "multer": "^1.4.2",
-    "node-opcua": "^2.47.0",
-    "node-opcua-client": "^2.47.0",
-    "nodemon": "^2.0.7",
-    "validator": "^13.6.0"
+    "traverse": "^0.6.6",
+    "validator": "^13.6.0",
+    "xss": "^1.0.10"
+  },
+  "engines": {
+    "node": "14.x"
   },
   "description": ""
 }

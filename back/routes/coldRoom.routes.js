@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const {bodyXss} = require('../middleware/xss.middleware')
 const upload = require("../middleware/upload.middleware");
 const coldRoomController = require("../controllers/coldRoom.controller");
 const {
@@ -18,6 +19,7 @@ const joiValidator = require("express-joi-validation").createValidator({
 router.post(
   "/createColdRoom",
   joiValidator.body(createColdRoomValidationSchema),
+  bodyXss,
   coldRoomController.createColdRoom
 );
 
@@ -34,6 +36,7 @@ router.post(
 
 router.post(
   "/switchValidationDayColdroom",
+  bodyXss,
   coldRoomController.switchValidationDayColdroom
 );
 

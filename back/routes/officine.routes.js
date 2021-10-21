@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const {bodyXss} = require('../middleware/xss.middleware')
 const officineController = require("../controllers/officine.controller");
 const {
   createOfficineValidationSchema,
@@ -14,16 +15,19 @@ const joiValidator = require("express-joi-validation").createValidator({
 router.post(
   "/createOfficine",
   joiValidator.body(createOfficineValidationSchema),
+  bodyXss,
   officineController.createOfficine
 );
 router.post(
   "/addColdRoomToOfficine",
   joiValidator.body(addColdRoomValidationSchema),
+  bodyXss,
   officineController.addColdRoomToOfficine
 );
 router.post(
   "/addUserToOfficine",
   joiValidator.body(addUserValidationSchema),
+  bodyXss,
   officineController.addUserToOfficine
 );
 router.get(

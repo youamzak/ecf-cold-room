@@ -9,10 +9,10 @@ module.exports.createOfficine = async (req, res) => {
   await OfficineModel.create({ name, address, city, phone, owner })
     .then(async (docs) => {
       await UserModel.findByIdAndUpdate(
-        user,
+        owner,
         {
           $addToSet: {
-            officine: owner,
+            officine: docs._id,
           },
         },
         { new: true, runValidators: true }

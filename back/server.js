@@ -9,7 +9,7 @@ const userRoutes = require("./routes/user.routes");
 const officineRoutes = require("./routes/officine.routes");
 const coldRoomRoutes = require("./routes/coldRoom.routes");
 
-require("dotenv").config({ path: "./config/.env" });
+require("dotenv").config({ path: "./.env.local" });
 require("./config/db");
 
 const corsOptions = {
@@ -21,7 +21,7 @@ const corsOptions = {
   preflightContinue: false,
 };
 
-app.use(express.static(path.join(__dirname, '../client/build')))
+app.use(express.static('client/build'))
 app.use(helmet());
 app.use(cors(corsOptions));
 

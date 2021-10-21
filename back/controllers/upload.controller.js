@@ -1,5 +1,5 @@
 const fs = require("fs");
-
+const pathLib = require('path');
 const moveFile = (oldFile, newFile) => {
   fs.rename(oldFile, newFile, (err, docs) => {
     if (!err) return "done";
@@ -8,9 +8,9 @@ const moveFile = (oldFile, newFile) => {
 };
 
 module.exports.single = async (req, res) => {
-    const path = `./uploads/${req.params.id}`;
+    const path = pathLib.join(__dirname,`../uploads/${req.params.id}`);
     const fileName = req.file.filename;
-    const fileNamePath = `./uploads/${fileName}`;
+    const fileNamePath = pathLib.join(__dirname,`../uploads/${fileName}`);
 
     fs.stat(path, (err, stats) => {
       //Control if the folder exists. Note : fs.exists is deprecated
