@@ -12,7 +12,7 @@ router.param("id", async (req, res, next, id) => {
         return res.status(400).json("Id doesn't exist")
       next()
     })
-    .catch(console.log)
+    .catch(err=>res.status(400).json({err}))
   }else{
     return res.status(400).json("Id incorrect");
   }

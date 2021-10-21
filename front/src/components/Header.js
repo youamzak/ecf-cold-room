@@ -26,16 +26,27 @@ const Container = styled.div`
   margin-right: auto;
   height: 102px;
   width: 1398px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  @media (max-width: 960px) {
+    width: 100%;
+  }
 `;
 
 const ImgContainer = styled.div`
-  margin-left: 24px;
+  /* margin-left: 24px; */
 
-  height: 80px;
-  width: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 160px;
   img {
-    height: 100%;
-    width: 100%;
+    margin-left: 10px;
+    height: 80px;
+    width: 80px;
   }
 `;
 

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import {
-  BrowserRouter as Router,
-} from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 // store
 import { useDispatch, useSelector } from "react-redux";
 // Components + styled-component
@@ -32,10 +30,14 @@ const Log = () => {
     <div>
       {isErr ? (
         <>
-          <PopupError isError={isErr} errorMessage={errMsg} />
+          <div >
+            <PopupError isError={isErr} message={errMsg} />
+          </div>
         </>
       ) : null}
-      <Router><FormLogin /></Router>
+      <Router>
+        <FormLogin />
+      </Router>
     </div>
   );
 };
@@ -48,11 +50,12 @@ const FormLogin = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    dispatch(resetState());
     await dispatch(signIn({ login, password }))
       .then((docs) => {
         history.push("/");
       })
-      .catch((err) => console.log(err));
+      
   };
 
   return (

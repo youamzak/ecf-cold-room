@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-const serverUrl = process.env.REACT_APP_SERVER_URL + "api/user/";
+
+const serverUrl = "/api/user/";
 
 export const signIn = createAsyncThunk(
   "user/login",
@@ -83,7 +84,7 @@ export const logout = createAsyncThunk(
       });
       return true;
     } catch (err) {
-      console.log("Logout :", err);
+   
       return false;
     }
   }
@@ -94,7 +95,7 @@ export const verifyToken = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}jwtid`,
+        `/jwtid`,
         {
           withCredentials: true,
         }
@@ -115,7 +116,7 @@ const initialState = {
   isAuthenticated: false,
   isLoggedIn: false,
   isError: false,
-  errorMessage: {},
+  errorMessage: [],
   isOfficine: false,
   userList: [],
   isCreated: false,
@@ -139,16 +140,21 @@ const userSlice = createSlice({
     resetInfos: (state, action) => {
       state.isError = false;
       state.isCreated = false;
+      state.errorMessage = [];
       return state;
     },
   },
   extraReducers: {
     [getUser.fulfilled]: (state, action) => {
       state.userList = action.payload;
+      state.isError = false;
+      state.errorMessage = [];
       return state;
     },
     [getUser.rejected]: (state, action) => {
       state.userList = [];
+      state.isError = true;
+      state.errorMessage = action.payload.err;
       return state;
     },
     [signUp.fulfilled]: (state, action) => {
@@ -159,6 +165,7 @@ const userSlice = createSlice({
     [signUp.rejected]: (state, action) => {
       state.isCreated = false;
       state.isError = true;
+      state.errorMessage = action.payload.err;
       return state;
     },
     [signIn.fulfilled]: (state, action) => {
@@ -167,7 +174,7 @@ const userSlice = createSlice({
       state.isLoggedIn = true;
       state.isError = false;
       state.isOfficine = action.payload.officine.length !== 0;
-      state.errorMessage = {};
+      state.errorMessage = [];
       return state;
     },
     [signIn.rejected]: (state, action) => {
@@ -182,7 +189,7 @@ const userSlice = createSlice({
       state.user = action.payload;
       state.isAuthenticated = true;
       state.isError = false;
-      state.errorMessage = {};
+      state.errorMessage = [];
       return state;
     },
     [verifyToken.rejected]: (state, action) => {

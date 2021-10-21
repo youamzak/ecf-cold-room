@@ -23,6 +23,7 @@ import { LineChart, Line, CartesianGrid, XAxis, YAxis } from "recharts";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../styles/react_data_picker.css"; //override orginal style for the calendar view
+import { ResponsiveContainer } from "recharts/lib/component/ResponsiveContainer";
 
 const Home = () => {
   const [coldRoomRef, setColdRoomRef] = useState("");
@@ -33,14 +34,13 @@ const Home = () => {
   const [isValidMeasurement, setIsValidMeasurement] = useState(false);
 
   const coldRoomsList = useSelector(getUserColdRooms);
- 
+
   const dispatch = useDispatch();
 
   /**Show the graph */
   const handleCalendar = async (e) => {
-    var myDate = e.dateTocheck.toString();
-    myDate = myDate.split(" ");
-    var newDate =
+    const myDate = e.dateTocheck.toString().split(" ");
+    const newDate =
       Date.parse(`${myDate[2]} ${myDate[1]} ${myDate[3]} 00:00:00 GMT+0200`) /
       1000;
 
@@ -87,7 +87,7 @@ const Home = () => {
         setDataHumidity(tmpHygrometry);
         setDataTemperature(tmpTemperature);
       })
-      .catch(console.log());
+      
   };
 
   /**Switch the validation of the day */
@@ -182,17 +182,19 @@ const ColdRoomCard = (props) => {
 const RenderLineChart = ({ data }) => {
   return (
     <>
+    <ResponsiveContainer width="100%" height={300}>
       <LineChart
-        width={600}
-        height={300}
+        
+        
         data={data}
-        margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+        margin={{ top: 5, right: 25, bottom: 5, left: -20 }}
       >
         <Line type="monotone" dataKey="uv" stroke={gc_blue} />
         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
         <XAxis dataKey="name" />
         <YAxis />
       </LineChart>
+      </ResponsiveContainer>
     </>
   );
 };
@@ -217,6 +219,13 @@ const CardContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
   background-color: ${gc_grey_middle};
+
+  @media (max-width: 960px) {
+    width: 100%;
+    height: auto;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
 `;
 
 const ColdRoomCardContainer = styled.div`
@@ -229,6 +238,15 @@ const ColdRoomContainer = styled.div`
   height: 440px;
   margin-left: auto;
   margin-right: auto;
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    
+    }
+  @media (max-width: 960px) {
+    width: 100%;
+    height: auto;
+  }
 `;
 
 const ColdRoomInfoContainer = styled.div`
@@ -241,12 +259,33 @@ const ColdRoomInfoContainer = styled.div`
   h2 {
     color: ${gc_orange};
   }
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    h2 {
+      width: 200px;
+    }
+  }
+  @media (max-width: 960px) {
+    width: 100%;
+    height: auto;
+  }
 `;
 
 const Chart = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    
+    }
+  @media (max-width: 960px) {
+    width: 100%;
+    height: auto;
+    flex-wrap: wrap;
+  }
 `;
 
 const GraphContainer = styled.div`
@@ -258,7 +297,15 @@ const GraphContainer = styled.div`
   h3 {
     color: ${gc_grey_dark};
   }
-  /* justify-content: center; */
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    
+    }
+  @media (max-width: 960px) {
+    width: 100%;
+    height: auto;
+  }
 `;
 
 const IconeContainer = styled.div`

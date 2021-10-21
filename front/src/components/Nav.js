@@ -19,7 +19,7 @@ const Nav = () => {
       .then((docs) => {
         history.push("/");
       })
-      .catch((err) => console.log(err));
+      
   };
 
   return (
@@ -76,6 +76,10 @@ const NavHome = styled.div`
       }
       
     }
+  }
+
+  @media (max-width: 768px) {
+    padding-left: 10px;
   }
 `;
 export default Nav;

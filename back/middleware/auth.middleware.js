@@ -42,7 +42,7 @@ module.exports.requireAuth = (req, res, next) => {
       }
     });
   } else {
-    console.log("No token");
+    //console.log("No token");
     next();
   }
 };

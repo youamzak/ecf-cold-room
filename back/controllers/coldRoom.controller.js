@@ -1,5 +1,4 @@
 const fs = require("fs");
-const xss = require('xss')
 const mongoose = require("mongoose");
 const ColdRoomModel = require("../models/coldRoom.model");
 const OfficineModel = require("../models/officine.model");
@@ -40,7 +39,7 @@ module.exports.addMesurementToColdroom = async (req, res) => {
   const { coldRoom } = req.body;
   const arrTemperature = [];
   const arrHygrometry = [];
-  // const path = `./uploads/${coldRoom}`;
+  const path = `./uploads/${coldRoom}`;
   const fileName = req.file.filename;
   const fileNamePath = `./uploads/${fileName}`;
 
@@ -51,14 +50,14 @@ module.exports.addMesurementToColdroom = async (req, res) => {
 
       jsonObj.forEach((element) => {
         arrTemperature.push({
-          id: xss(element[columns].split(";")[0]),
-          timestamp: xss(element[columns].split(";")[1]),
-          measure: xss(element[columns].split(";")[2]),
+          id: element[columns].split(";")[0],
+          timestamp: element[columns].split(";")[1],
+          measure: element[columns].split(";")[2],
         });
         arrHygrometry.push({
-          id: xss(element[columns].split(";")[0]),
-          timestamp: xss(element[columns].split(";")[1]),
-          measure: xss(element[columns].split(";")[3]),
+          id: element[columns].split(";")[0],
+          timestamp: element[columns].split(";")[1],
+          measure: element[columns].split(";")[3],
         });
       });
 
@@ -104,7 +103,7 @@ module.exports.switchValidationDayColdroom = async (req, res) => {
 
       res.status(200).json({doc: null})
     })
-    .catch((err) => console.log(err));
+    .catch((err) => res.status(200).json({err}));
 };
 
 /** Get measurement */

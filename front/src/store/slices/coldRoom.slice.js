@@ -1,18 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-const serverUrl = process.env.REACT_APP_SERVER_URL + "api/coldRoom/";
+
+const serverUrl = "/api/coldRoom/";
 
 export const createColdRoom = createAsyncThunk(
   "coldRoom/createColdRoom",
   async (infos, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${serverUrl}createColdRoom`,
-        infos,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post(`${serverUrl}createColdRoom`, infos, {
+        withCredentials: true,
+      });
       return response.data;
     } catch (err) {
       let error = err;
@@ -29,12 +26,9 @@ export const getColdRooms = createAsyncThunk(
   "coldRoom/getColdRoom",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        `${serverUrl}getColdRooms`,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${serverUrl}getColdRooms`, {
+        withCredentials: true,
+      });
       return response.data;
     } catch (err) {
       let error = err;
@@ -51,9 +45,13 @@ export const getColdRoomMeasurement = createAsyncThunk(
   "coldRoom/getColdRoomMeasurement",
   async (infos, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${serverUrl}getColdRoomMeasurement`, infos, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        `${serverUrl}getColdRoomMeasurement`,
+        infos,
+        {
+          withCredentials: true,
+        }
+      );
       return response.data;
     } catch (err) {
       let error = err;
@@ -69,9 +67,13 @@ export const switchValidationDayColdroom = createAsyncThunk(
   "coldRoom/switchValidationDayColdroom",
   async (infos, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${serverUrl}switchValidationDayColdroom`, infos, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        `${serverUrl}switchValidationDayColdroom`,
+        infos,
+        {
+          withCredentials: true,
+        }
+      );
       return response.data;
     } catch (err) {
       let error = err;
@@ -101,28 +103,28 @@ export const addMesurementToColdroom = createAsyncThunk(
   }
 );
 
-export const getOfficineColdRooms = createAsyncThunk(
-  "coldRoom/getOfficineColdRoomsInfos",
-  async (infos, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(
-        `${serverUrl}getOfficineColdRooms`,
-        infos,
-        {
-          withCredentials: true,
-        }
-      );
-      return response.data;
-    } catch (err) {
-      let error = err;
-      if (!error.response) {
-        throw err;
-      }
+// export const getOfficineColdRooms = createAsyncThunk(
+//   "coldRoom/getOfficineColdRoomsInfos",
+//   async (infos, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.get(
+//         `${serverUrl}getOfficineColdRooms`,
+//         infos,
+//         {
+//           withCredentials: true,
+//         }
+//       );
+//       return response.data;
+//     } catch (err) {
+//       let error = err;
+//       if (!error.response) {
+//         throw err;
+//       }
 
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
+//       return rejectWithValue(error.response.data);
+//     }
+//   }
+// );
 
 const initialState = {
   isError: false,
@@ -143,6 +145,12 @@ const coldRoomSlice = createSlice({
     setColdRooms: (state, action) => {
       state.coldRooms = action.payload;
       state.isError = false;
+      state.errorMessage = {};
+      return state;
+    },
+    resetInfos: (state, action) => {
+      state.isError = false;
+      state.isSuccess = false;
       state.errorMessage = {};
       return state;
     },
@@ -184,18 +192,6 @@ const coldRoomSlice = createSlice({
       state.errorMessage = action.payload.err;
       return state;
     },
-    [getOfficineColdRooms.fulfilled]: (state, action) => {
-      state.coldRooms = action.payload;
-      state.isError = false;
-      state.errorMessage = {};
-      return state;
-    },
-    [getOfficineColdRooms.rejected]: (state, action) => {
-      state.coldRooms = {};
-      state.isError = true;
-      state.errorMessage = action.payload.err;
-      return state;
-    },
     [getColdRoomMeasurement.fulfilled]: (state, action) => {
       state.measure = action.payload;
       state.isError = false;
@@ -225,6 +221,6 @@ const coldRoomSlice = createSlice({
 
 // export const getColdRoomsInfos = (state) => state.officine.officines;
 
-export const { resetState, setColdRooms } = coldRoomSlice.actions;
+export const { resetState, setColdRooms, resetInfos } = coldRoomSlice.actions;
 
 export default coldRoomSlice;

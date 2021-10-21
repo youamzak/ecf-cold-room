@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import {
-  gc_grey_middle,
-  gc_blue,
-  fc_blue,
-  fs_24_bold,
-  gc_white,
-  gc_orange,
-} from "../styles/index.module.css";
+import { gc_grey_middle } from "../styles/index.module.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -19,23 +12,39 @@ import {
   getUserInfos,
   updatePassword,
   signUp,
-  resetInfos,
+  resetInfos as userResetInfos,
 } from "../store/slices/user.slice";
-import { createOfficine, getOfficines } from "../store/slices/officine.slice";
-import { createColdRoom, getColdRooms, addMesurementToColdroom } from "../store/slices/coldRoom.slice";
+import {
+  createOfficine,
+  getOfficines,
+  resetInfos as officineResetInfos,
+} from "../store/slices/officine.slice";
+import {
+  createColdRoom,
+  getColdRooms,
+  addMesurementToColdroom,
+  resetInfos as coldRoomResetInfos,
+} from "../store/slices/coldRoom.slice";
 
 const Admin = () => {
   const dispatch = useDispatch();
+
+  const [isErr, setIsErr] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+
+  const userInfos = useSelector(getUserInfos);
   const userRole = useSelector((state) => state.user.user.role);
 
   const userList = useSelector((state) => state.user.userList);
-  const coldRoomList = useSelector((state) => state.coldRoom.coldRooms)
-  const officineList = useSelector((state) => state.officine.officines);
+  const coldRoomList = useSelector((state) => state.coldRoom.coldRooms);
+  const officineList = Object.entries(
+    useSelector((state) => state.officine.officines)
+  );
   const [userOfficine, setUserOfficine] = useState([]);
   const [userTechnician, setUserTechnician] = useState([]);
-
-  console.log("coldRoomList", coldRoomList);
-  console.log("officineList", officineList);
 
   //Change password
   const [psw1, setPsw1] = useState("");
@@ -51,6 +60,7 @@ const Admin = () => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const isErrorUser = useSelector((state) => state.user.isError);
+  const errMsgUser = useSelector((state) => state.user.errorMessage);
   const isCreatedUser = useSelector((state) => state.user.isCreated);
 
   //Create officine
@@ -60,74 +70,83 @@ const Admin = () => {
   const [phone, setPhone] = useState("");
   const [owner, setOwner] = useState("");
   const isErrorOfficine = useSelector((state) => state.officine.isError);
+  const errMsgOfficine = useSelector((state) => state.officine.errorMessage);
   const isSuccessOfficine = useSelector((state) => state.officine.isSuccess);
 
   //Create cold room
   const [reference, setReference] = useState("");
   const [officine, setOfficine] = useState("");
+  const isErrorColdRoom = useSelector((state) => state.coldRoom.isError);
+  const errMsgColdRoom = useSelector((state) => state.coldRoom.errorMessage);
+  const isSuccessColdRoom = useSelector((state) => state.coldRoom.isSuccess);
 
   //Upload measure
   const [coldRoom, setColdRoom] = useState("");
   const [fileToUp, setFileToUp] = useState("");
 
-  ////
-  const [isErr, setIsErr] = useState(false);
-  const [errMsg, setErrMsg] = useState("");
-
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
-
-  const userInfos = useSelector(getUserInfos);
-
   // Use effects
   useEffect(() => {
-    dispatch(resetInfos());
-    setIsSuccess(false);
-    setIsErr(false);
+    dispatch(userResetInfos());
+    dispatch(officineResetInfos());
+    dispatch(coldRoomResetInfos());
+    resetLocalState();
 
     dispatch(getUser());
-    dispatch(getColdRooms())
+    dispatch(getColdRooms());
     dispatch(getOfficines());
   }, [dispatch]);
 
+  //useEffect to update the list
+  useEffect(() => {
+    dispatch(getUser());
+    if (isCreatedUser) setIsSuccess(true);
+    setSuccessMsg("Utilisateur créé");
+  }, [isCreatedUser]);
+
+  useEffect(() => {
+    dispatch(getOfficines());
+    if (isSuccessOfficine) setIsSuccess(true);
+    setSuccessMsg("Officine créée");
+  }, [isSuccessOfficine]);
+
+  useEffect(() => {
+    dispatch(getOfficines());
+    if (isSuccessColdRoom) setIsSuccess(true);
+    setSuccessMsg("Chambre froide créée/mise à jour");
+  }, [isSuccessColdRoom]);
+
+  //Every time the userList has changed
   useEffect(() => {
     setUserOfficine(userList.filter((el) => el.role === "officine"));
     setUserTechnician(userList.filter((el) => el.role === "technicien"));
   }, [userList]);
 
   useEffect(() => {
-    if (isErrorUser) {
-      setIsSuccess(false);
-      setIsSuccess("");
-      setIsErr(true);
-      setErrMsg("Erreur dans la création de l'utilisateur");
-    }
-    if (isCreatedUser) {
-      setIsSuccess(true);
-      setSuccessMsg("Utilisateur créé");
-      setIsErr(false);
-      setErrMsg("");
-    }
-  }, [isErrorUser, isCreatedUser, dispatch]);
+    if (isErrorUser) setIsErr(true);
+    setErrMsg(errMsgUser);
+  }, [isErrorUser]);
 
   useEffect(() => {
-    if (isErrorOfficine) {
-      setIsSuccess(false);
-      setIsSuccess("");
-      setIsErr(true);
-      setErrMsg("Erreur sur la création de l'officine");
-    }
-    if (isSuccessOfficine) {
-      setIsSuccess(true);
-      setSuccessMsg("Officine créée");
-      setIsErr(false);
-      setErrMsg("");
-    }
-  }, [isErrorOfficine, isSuccessOfficine]);
+    if (isErrorOfficine) setIsErr(true);
+    setErrMsg(errMsgOfficine);
+  }, [isErrorOfficine]);
 
+  useEffect(() => {
+    if (isErrorColdRoom) setIsErr(true);
+    setErrMsg(errMsgColdRoom);
+  }, [isErrorColdRoom]);
+
+  const resetLocalState = () => {
+    setIsErr(false);
+    setErrMsg("");
+    setIsSuccess(false);
+    setSuccessMsg("");
+  };
   /**Change password function */
   const handleChangePsw = async (e) => {
     e.preventDefault();
+    resetLocalState();
+    dispatch(userResetInfos());
     if (psw1.length < 8 || psw2.length < 8) {
       setIsErr(true);
       setErrMsg("Mots de passes trop court");
@@ -147,12 +166,14 @@ const Admin = () => {
         setIsSuccess(true);
         setSuccessMsg("Mot de passe modifié");
       })
-      .catch((err) => console.log(err));
+      
   };
 
   /**Change tech password function */
   const handleChangeTechPsw = async (e) => {
     e.preventDefault();
+    resetLocalState();
+    dispatch(userResetInfos());
     if (psw3.length < 8 || psw4.length < 8) {
       setIsErr(true);
       setErrMsg("Mots de passes trop court");
@@ -172,35 +193,55 @@ const Admin = () => {
         setIsSuccess(true);
         setSuccessMsg("Mot de passe modifié");
       })
-      .catch((err) => console.log(err));
+      
   };
 
   /**Create user function */
   const handleCreateUser = async (e) => {
     e.preventDefault();
+    resetLocalState();
+    dispatch(userResetInfos());
     await dispatch(signUp({ login, password, role }));
   };
 
   /**Create officine function */
   const handleCreateOfficine = async (e) => {
     e.preventDefault();
+    resetLocalState();
+    dispatch(officineResetInfos());
     await dispatch(createOfficine({ name, address, city, phone, owner }));
   };
 
   /**Create cold room function */
   const handleCreateColdRoom = async (e) => {
     e.preventDefault();
+    resetLocalState();
+    dispatch(coldRoomResetInfos());
     await dispatch(createColdRoom({ reference, officine }));
   };
 
+  /**upload measure function */
   const handleUploadMeasure = async (e) => {
     e.preventDefault();
-    const data = new FormData()
-    console.log(fileToUp)
-    data.append('upload', fileToUp)
-    data.append('coldRoom', coldRoom)
+    resetLocalState();
+    dispatch(coldRoomResetInfos());
+    const data = new FormData();
+    data.append("upload", fileToUp);
+    data.append("coldRoom", coldRoom);
     await dispatch(addMesurementToColdroom(data));
   };
+
+  /**Creation of the officine dropdown list */
+  const dropDownOfficinelist = () => {
+    if (officineList !== undefined && officineList.length !== 0) {
+      return officineList.map((officine) =>
+        officine.map((el) => (
+          <Dropdown.Item eventKey={el._id}>{el.name}</Dropdown.Item>
+        ))
+      );
+    }
+  };
+
   return (
     <div>
       {isErr ? (
@@ -520,13 +561,7 @@ const Admin = () => {
                       Officine
                     </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                      {officineList.map((officine) => (
-                        <Dropdown.Item eventKey={officine._id}>
-                          {officine.name}
-                        </Dropdown.Item>
-                      ))}
-                    </Dropdown.Menu>
+                    <Dropdown.Menu>{dropDownOfficinelist()}</Dropdown.Menu>
                   </Dropdown>
 
                   <Button
@@ -552,7 +587,11 @@ const Admin = () => {
                 className={`${styles.bk_grey_dark} ${styles.fc_white} ${styles.br_5} ${styles.fs_13}`}
               >
                 <Form onSubmit={handleUploadMeasure}>
-                  <Form.Group onChange={(e)=>setFileToUp(e.target.files[0])} controlId="formFile" className="mb-3">
+                  <Form.Group
+                    onChange={(e) => setFileToUp(e.target.files[0])}
+                    controlId="formFile"
+                    className="mb-3"
+                  >
                     <Form.Label>Fichier de mesures</Form.Label>
                     <Form.Control type="file" />
                   </Form.Group>
@@ -614,6 +653,14 @@ const UserContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+  }
+  @media (max-width: 960px) {
+    width: 100%;
+    height: auto;
+  }
 `;
 
 const FormContainer = styled.div`

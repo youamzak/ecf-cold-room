@@ -2,12 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import {
   gc_grey_middle,
-  gc_blue,
-  fc_blue,
-  fs_24_bold,
-  gc_white,
-  gc_orange,
-} from "../styles/index.module.css";
+ } from "../styles/index.module.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import styles from "../styles/index.module.css";
@@ -44,7 +39,7 @@ const User = () => {
         setPsw2("");
         setIsSuccess(true)
       })
-      .catch((err) => console.log(err));
+      
   };
   
   return (
